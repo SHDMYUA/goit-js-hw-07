@@ -29,5 +29,7 @@ placeGalleryRef.insertAdjacentHTML("afterbegin", imagesELadd);
 
 //Prepare pictures for SimpleLightbox
 const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
 });
 console.log(lightbox);
