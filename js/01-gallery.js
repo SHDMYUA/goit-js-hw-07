@@ -43,5 +43,6 @@ const imagesELadd = makeGalleryEl(galleryItems);
 // Add the gallery to the html file
 placeGalleryRef.insertAdjacentHTML("afterbegin", imagesELadd);
 
+//Add listener
 
 
