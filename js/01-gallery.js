@@ -12,6 +12,7 @@
 
 
 import { galleryItems } from './gallery-items.js';
+// import * as basicLightbox from 'basiclightbox'
 
 const placeGalleryRef = document.querySelector(".gallery");
 
@@ -20,7 +21,7 @@ const makeGalleryEl = ({preview, original, description}) => {
   return galleryItems.map(({preview , original, description}) => {
     const listEl = `
       <div class="gallery__item">
-      <a class="gallery__link" href="large-image.jpg">
+      <a class="gallery__link" href="${original}">
       <img
         class="gallery__image"
         src="${preview}"
@@ -44,5 +45,34 @@ const imagesELadd = makeGalleryEl(galleryItems);
 placeGalleryRef.insertAdjacentHTML("afterbegin", imagesELadd);
 
 //Add listener
+placeGalleryRef.addEventListener('click', onTagsContainerClick);
+
+//Function for change src (size small to big)
+function onTagsContainerClick(event){
+    event.preventDefault()
+    const currentImg = event.target;
+    console.log(currentImg);  
+    if(!currentImg.classList.contains("gallery__image")){
+    return;
+  }
+  console.log("worked"); 
+  // console.log(currentImg);
+  instance.show(currentImg)
+};
+
+// Function for open large img in the modal window (basicLightbox)
+import * as basicLightbox from 'basiclightbox'
+
+const instance = basicLightbox.create(`
+    <div class="modal">
+        <p>
+            Your first lightbox with just a few lines of code.
+            Yes, it's really that simple.
+        </p>
+    </div>
+`)
+
+
+
 
 
