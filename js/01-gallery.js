@@ -8,15 +8,12 @@
 
 // Замена значения атрибута src элемента <img> в модальном окне перед открытием. Используй готовую разметку модального окна с изображением из примеров библиотеки basicLightbox.
 
-
-
-
 import { galleryItems } from './gallery-items.js';
-// import * as basicLightbox from 'basiclightbox'
 
+// Place for insert the gallery
 const placeGalleryRef = document.querySelector(".gallery");
 
-//Function make one element of gallery from backend data
+//Make one element of gallery from backend data
 const makeGalleryEl = ({preview, original, description}) => {
   return galleryItems.map(({preview , original, description}) => {
     const listEl = `
@@ -37,42 +34,40 @@ const makeGalleryEl = ({preview, original, description}) => {
 };
 
 //Make all elements of gallery
-
 const imagesELadd = makeGalleryEl(galleryItems);
-
 
 // Add the gallery to the html file
 placeGalleryRef.insertAdjacentHTML("afterbegin", imagesELadd);
 
-//Add listener
+//Add listener for open large window
 placeGalleryRef.addEventListener('click', onTagsContainerClick);
 
-//Function for change src (size small to big)
+//Function for check places of click and change src for large image)
 function onTagsContainerClick(event){
     event.preventDefault()
     const currentImg = event.target;
-    console.log(currentImg);  
+
     if(!currentImg.classList.contains("gallery__image")){
     return;
   }
-  console.log("worked"); 
-  // console.log(currentImg);
-  instance.show(currentImg)
+  const src = currentImg.dataset.source;
+  const alt = currentImg.alt;
+  makeModalwindow(src, alt); //call modal window
 };
 
-// Function for open large img in the modal window (basicLightbox)
-import * as basicLightbox from 'basiclightbox'
+// Function for open large img in the modal window (with basicLightbox)
 
-const instance = basicLightbox.create(`
-    <div class="modal">
-        <p>
-            Your first lightbox with just a few lines of code.
-            Yes, it's really that simple.
-        </p>
-    </div>
-`)
+function makeModalwindow(src, alt){
+  const instance = basicLightbox
+  .create(`<img src="${src}" alt="${alt}" width="800" height="600">`)
+  .show();
+  window.addEventListener("keydown", closeModal);
+  };
 
 
-
-
-
+// Add function for close modal window by ESCkey
+function closeModal () {
+  const findClass = document.querySelector(".basicLightbox");
+  findClass.classList.remove("basicLightbox--visible");
+  window.removeEventListener("keydown", closeModal);
+};
